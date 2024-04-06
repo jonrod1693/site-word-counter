@@ -16,8 +16,8 @@ class WordCountAPIView(generics.CreateAPIView):
 
             try:
                 response = requests.get(url)
-                response.encoding = response.apparent_encoding
-                soup = BeautifulSoup(response.content, 'html.parser')
+                soup = BeautifulSoup(response.content, 'html.parser', from_encoding=response.apparent_encoding)
+                [s.extract() for s in soup(['head', 'title', 'meta', 'style', 'script', '[document]'])]
                 page_text = soup.get_text()
                 pattern = r'\b{}\b'.format(re.escape(word))
                 word_count = len(re.findall(pattern, page_text.lower()))
@@ -26,4 +26,4 @@ class WordCountAPIView(generics.CreateAPIView):
             except Exception as e:
                 return Response({'error': str(e)}, status=400)
         else:
-            return Response(serializer.errors, status=400)
+            return Response({'error': str(serializer.errors)}, status=400)
