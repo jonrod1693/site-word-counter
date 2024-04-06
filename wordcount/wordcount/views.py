@@ -1,15 +1,22 @@
 from bs4 import BeautifulSoup
-from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 
 import re
 import requests
 
 from .serializers import WordCountSerializer
 
-class WordCountAPIView(generics.CreateAPIView):
+class WordCountAPIView(APIView):
+    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+    serializer_class = WordCountSerializer
+
     def post(self, request):
-        serializer = WordCountSerializer(data=request.data)
+        """
+        Returns word and word count in json format.
+        """
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             url = serializer.validated_data['url']
             word = serializer.validated_data['word']
