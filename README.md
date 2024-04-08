@@ -64,27 +64,30 @@ This endpoint takes a URL and a word as input and returns the word and the count
 
 ## Setup
 
-1. Create a virtualenv
+1. Create a virtualenv (steps 1-4 for are for first time use)
    ```
    python -m venv .venv
    ```
+2. Activate virtualenv
+   ```
+   source .venv/bin/activate
 
-2. Install dependencies:
+3. Install dependencies:
    ```
    pip install -r requirements.txt
    ```
 
-3. Go inside wordcount project directory
+4. Go inside wordcount project directory
    ```
    cd wordcount
    ```
 
-3. Run migrations:
+5. Run migrations:
    ```
    python manage.py migrate wordcount
    ```
 
-4. Run the development server:
+6. Run the development server:
    ```
    python manage.py runserver 0.0.0.0:8000
    ```
